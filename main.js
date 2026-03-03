@@ -263,13 +263,25 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// ─── PARALLAX ON SCROLL ──────────────────────────────────────
-const heroImg = document.querySelector('.hero-bg-img');
+// ─── HERO SLIDESHOW ──────────────────────────────────────────
+const heroSlides = document.querySelectorAll('.hero-bgslide');
+let currentHeroSlide = 0;
 
+if (heroSlides.length > 1) {
+    setInterval(() => {
+        heroSlides[currentHeroSlide].classList.remove('active');
+        currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
+        heroSlides[currentHeroSlide].classList.add('active');
+    }, 5000); // 5 seconds per slide
+}
+
+// ─── PARALLAX ON SCROLL ──────────────────────────────────────
 window.addEventListener('scroll', () => {
-    if (heroImg && window.scrollY < window.innerHeight) {
+    if (heroSlides.length && window.scrollY < window.innerHeight) {
         const offset = window.scrollY * 0.35;
-        heroImg.style.transform = `scale(1.1) translateY(${offset}px)`;
+        heroSlides.forEach(slide => {
+            slide.style.transform = `scale(1.1) translateY(${offset}px)`;
+        });
     }
 });
 
